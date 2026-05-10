@@ -3,11 +3,11 @@ import "./Footer.css";
 export const Footer = () => {
   return (
     <footer>
-      <p>Sitio desarrollado por Belu</p>
+      <p>Sitio desarrollado por pablo.roda@gmail.com</p>
       <nav>
         <ul className="nav-list">
-          <li>Whatsapp</li>
-          <li>Instagram</li>
+          <li></li>
+          <li></li>
         </ul>
       </nav>
     </footer>
