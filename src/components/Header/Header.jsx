@@ -1,4 +1,4 @@
-import logo from "../../assets/mate.svg";
+import logo from "../../assets/Mate.svg";
 import { Nav } from "../Nav/Nav";
 import { Link } from "react-router-dom";
 
