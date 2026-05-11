@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import "./Nav.css";
+import { useCart } from "../../contexts/CartContext";
 // import styles from "./Nav.module.css";
 
 export const Nav = () => {
+  const { getTotalItems } = useCart();
+
   return (
     <nav>
       {/* <ul className={styles["nav-list"]}> */}
@@ -11,7 +14,7 @@ export const Nav = () => {
           <Link to={"/"}>Home</Link>
         </li>
         <li>
-          <Link to={"/carrito"}>Carrito</Link>
+          <Link to={"/carrito"}>Carrito ({getTotalItems()})</Link>
         </li>
       </ul>
     </nav>
