@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { ItemList } from "../ItemList/ItemList";
+import { getProducts, getProductsByCategory } from "../../services/productService";
 
 export const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   //CON LA API FAKESTORE
   // useEffect(() => {
@@ -23,18 +28,49 @@ export const ItemListContainer = () => {
   //     .finally(() => setLoading(false));
   // }, []);
 
-  //Con el JSON LOCAL
+  // Con Firestore: obtener productos desde la colección 'products'
   useEffect(() => {
     setLoading(true);
+    setError(null);
 
-    fetch("/data/products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.log("Hubo un error:", err))
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+        setAllProducts(data);
+        const categoryList = Array.from(
+          new Set(data.map((product) => product.category).filter(Boolean))
+        );
+        setCategories(["all", ...categoryList]);
+      })
+      .catch((err) => {
+        console.log("Hubo un error:", err);
+        setError("No se pudieron cargar los productos.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
-  console.log(products);
+  const handleCategoryChange = (event) => {
+    const category = event.target.value;
+    setSelectedCategory(category);
+
+    if (category === "all") {
+      setProducts(allProducts);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    getProductsByCategory(category)
+      .then((data) => setProducts(data))
+      .catch((err) => {
+        console.log("Hubo un error al filtrar:", err);
+        setError("No se pudieron cargar los productos de esa categoría.");
+      })
+      .finally(() => setLoading(false));
+  };
+
+  console.log(products, selectedCategory);
 
   //SOLO es para ejemplo practico porque aun nos faltan temas por ver: NO ES LA MANERA CORRECTA
   // const arrayProducts = [
@@ -56,13 +92,22 @@ export const ItemListContainer = () => {
 
   return (
     <section>
-      {/* <h1>Componente ItemListContainer</h1>
-      <p>Este componente a futuro tendra logica y conexion a API</p>
+      <div className="filter-bar">
+        <label htmlFor="category-select">Filtrar por categoría:</label>
+        <select
+          id="category-select"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+        >
+          {categories.map((category) => (
+            <option value={category} key={category}>
+              {category === "all" ? "Todas" : category}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <button onClick={getProducts}>Traer productos</button>
-      <button onClick={clearProducts}>Vaciar productos</button> */}
-
-      <ItemList products={products} />
+      {error ? <p className="error-message">{error}</p> : <ItemList products={products} />}
     </section>
   );
 };

@@ -36,6 +36,16 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  const updateQuantity = (id, delta) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
   const getTotalItems = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
@@ -49,6 +59,7 @@ export const CartProvider = ({ children }) => {
       cartItems,
       addToCart,
       removeFromCart,
+      updateQuantity,
       clearCart,
       getTotalItems,
       getTotalPrice
