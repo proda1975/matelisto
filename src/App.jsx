@@ -8,8 +8,13 @@ import { ItemListContainer } from "./components/ItemListContainer/ItemListContai
 import { ItemDetailContainer } from "./components/ItemDetailContainer/ItemDetailContainer";
 import { Cart } from "./components/Cart/Cart";
 import { CartProvider } from "./contexts/CartContext";
+import { ABM } from "./components/ABM/ABM";
 
 function App() {
+  const handleProductAdded = () => {
+    window.location.reload();
+  };
+
   return (
     <CartProvider>
       <Header />
@@ -18,6 +23,7 @@ function App() {
           <Route path="/" element={<ItemListContainer />} />
           <Route path="/product/:id" element={<ItemDetailContainer />} />
           <Route path="/carrito" element={<Cart />} />
+          <Route path="/abm" element={<ABM onProductAdded={handleProductAdded} />} />
         </Routes>
       </main>
       <Footer />

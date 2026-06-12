@@ -1,7 +1,8 @@
 import { Item } from "../Item/Item";
 import { useCart } from "../../contexts/CartContext";
+import "./ItemDetail.css";
 
-export const ItemDetail = ({ item }) => {
+export const ItemDetail = ({ item, onDelete, deleting }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -11,7 +12,20 @@ export const ItemDetail = ({ item }) => {
 
   return (
     <Item {...item}>
-      <button className="btn primary" onClick={handleAddToCart}>Agregar al carrito</button>
+      <div className="item-detail-buttons">
+        <button className="btn primary" onClick={handleAddToCart}>
+          Agregar al carrito
+        </button>
+        {onDelete && (
+          <button 
+            className="btn danger" 
+            onClick={onDelete}
+            disabled={deleting}
+          >
+            {deleting ? "Eliminando..." : "Eliminar"}
+          </button>
+        )}
+      </div>
     </Item>
   );
 };

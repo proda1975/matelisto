@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query, where, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 const normalizeProduct = (snapshot) => {
@@ -31,4 +31,15 @@ export const getProductsByCategory = async (category) => {
   const q = query(collection(db, "products"), where("category", "==", category));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(normalizeProduct);
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    const ref = doc(db, "products", id);
+    await deleteDoc(ref);
+    return true;
+  } catch (error) {
+    console.error("Error al eliminar producto:", error);
+    throw error;
+  }
 };

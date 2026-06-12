@@ -16,6 +16,9 @@ export const Nav = () => {
         <li>
           <Link to={"/carrito"}>Carrito ({getTotalItems()})</Link>
         </li>
+        <li>
+          <Link to={"/abm"}>ABM</Link>
+        </li>
       </ul>
     </nav>
   );
