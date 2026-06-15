@@ -29,3 +29,9 @@
   border-radius: 8px;
   background-color: white;
 }
+
+.checkout-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}

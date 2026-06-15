@@ -6,6 +6,11 @@ import "./Cart.css";
 export const Cart = () => {
   const { cartItems, clearCart } = useCart();
 
+  const handleCheckout = () => {
+    alert("¡Gracias por tu compra! Estamos procesando tu pedido.");
+    // Aquí se integraría la lógica para guardar la orden en Firebase
+  };
+
   return (
     <div className="cart">
       <h1>Carrito de Compras</h1>
@@ -15,6 +20,9 @@ export const Cart = () => {
         <>
           <CartList items={cartItems} />
           <CartSummary onClear={clearCart} />
+          <div className="checkout-container">
+            <button className="btn" onClick={handleCheckout}>Finalizar Compra / Pagar</button>
+          </div>
         </>
       )}
     </div>
